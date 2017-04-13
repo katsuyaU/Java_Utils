@@ -1,0 +1,88 @@
+[<package> json|
+    [<abstract>JSON||
+        +get(index:int):JSON
+        +get(key:String):JSON
+        +size():int
+        +toInt():int
+        +toDouble():double
+        +toBoolean():boolean
+        +as(func:JSON -> T) : T
+        +getKey():String
+
+        +default spliterator():Spliterator< JSON >
+        +default stream():Stream< JSON >
+
+        +static create(json:String):JSON
+        +static create(path:Path):JSON
+    ]
+    [<abstract>JSONBase|
+        ＃json:String
+        ＃key:String {get}
+    |
+        ＃JSONBase(json:String,key:String)
+        +as(func:JSON -> T) : T 
+        +toString():String
+        +getKey():String
+        _
+        **以下は全てJSONExceptionをthrow**
+        +get(index:int):JSON
+        +get(key:String):JSON
+        +size():int
+        +toInt():int
+        +toDouble():double
+        +toBoolean():boolean
+    ]
+    [JSONArray|
+        -list:List<JSON>
+    |
+        ＃JSONArray(json:String,key:String)
+        ＃JSONArray(json:String)
+        +get(index:int):JSON
+        +size():int
+        +iterator():Iterator< JSON >
+    ]
+    [JSONObject|
+        -map:Map<String,JSON>
+    |
+        ＃JSONObject(json:String,key:String)
+        ＃JSONObject(json:String)
+        +get(key:String) : JSON
+        +size():int
+        +iterator() : Iterator< JSON >
+    ]
+    [JSONValue|
+        -value:String
+        -valueType:ValueType
+    |
+        ＃JSONValue(json:String,key:String)
+        ＃JSONValue(json:String)
+        +toInt():int
+        +toDouble():double
+        +toBoolean():boolean
+        +toString():String
+        +iterator() : Iterator< JSON >
+    |
+        [< enum >
+        ValueType|
+            STRING 
+            NUMBER
+            BOOL
+            NULL
+        ]
+    ]
+    // [Spliterator< JSON >] <--use [JSON]
+    [Stream< JSON >] <--use [JSON]
+    [JSONException] <--use [JSON]
+    [java.lang.Iterable< JSON >] <:--[JSON]
+    // [Spliterator] <:-- [JSON]
+    [JSON] o- [JSON]
+    // [JSON] create-> [JSON]
+
+    [JSON] <:-- [JSONBase]
+    [JSONBase] <:- [JSONArray]
+    [JSONBase] <:- [JSONObject]
+    [JSONBase] <:- [JSONValue] 
+
+
+
+]
